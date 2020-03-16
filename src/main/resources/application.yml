@@ -1,0 +1,34 @@
+server:
+  servlet:
+    context-path: /community
+
+spring:
+  thymeleaf:
+    cache: false
+
+  profiles:
+    active: dev
+  # 需要更新的目录
+  devtools:
+    restart:
+      additional-paths: resources/**,static/**,templates/**
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Hongkong
+    username: root
+    password: 123456
+    platform: mysql
+    # springboot默认的连接池为HikariCP,此处替换为Druid
+    type: com.zaxxer.hikari.HikariDataSource
+    #初始化大小，最小，最大
+    hikari:
+      maximum-pool-size: 15
+      minimum-idle: 5
+      idle-timeout: 30000
+
+mybatis:
+  type-aliases-package: com.charles.community.model
+  mapper-locations: classpath:/mybatis-mappers/*
+  configuration:
+    map-underscore-to-camel-case: true
+    use-generated-keys: true
