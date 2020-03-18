@@ -33,6 +33,10 @@ public class MapperTest {
     public void testDiscussPostMapper() {
         System.out.println(discussPostMapper.selectDiscussPostRows(149));
         System.out.println(discussPostMapper.selectDiscussPosts(149, 0, 10));
+    }
+
+    @Test
+    public void testLoginTicket() {
 
     }
 }
