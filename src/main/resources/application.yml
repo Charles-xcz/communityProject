@@ -12,6 +12,7 @@ spring:
   devtools:
     restart:
       additional-paths: resources/**,static/**,templates/**
+  # DataSourceProperties
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/community?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Hongkong
@@ -25,10 +26,28 @@ spring:
       maximum-pool-size: 15
       minimum-idle: 5
       idle-timeout: 30000
+  # MailProperties
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: changzhi_xu@163.com
+    password: QAKBAXPPWDJARESU
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
 
+# MybatisProperties
 mybatis:
   type-aliases-package: com.charles.community.model
   mapper-locations: classpath:/mybatis-mappers/*
   configuration:
     map-underscore-to-camel-case: true
     use-generated-keys: true
+
+# community
+community:
+  path:
+    domain: http://localhost:8080
