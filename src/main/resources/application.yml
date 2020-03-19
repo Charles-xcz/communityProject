@@ -51,3 +51,5 @@ mybatis:
 community:
   path:
     domain: http://localhost:8080
+    # 上传文件的保存路径
+    upload: D:/charles/Desktop/stu/community/upload
