@@ -2,9 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>$Title$</title>
+    <title>Ajax</title>
 </head>
 <body>
-$END$
+<p>
+    <input type="button" value="发送" onclick="send();">
+</p>
+<script>
+    function send() {
+        $.post(
+            "/community/ajax",
+            {"name": "张三", "age": "22"},
+            function (data) {
+                console.log(typeof (data));
+                console.log(data);
+                data = $.parseJSON(data);
+                console.log(typeof (data));
+                console.log(data.code);
+                console.log(data.msg);
+            }
+        );
+    }
+</script>
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
