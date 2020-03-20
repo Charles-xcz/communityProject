@@ -4,15 +4,14 @@ import com.charles.community.model.DiscussPost;
 import com.charles.community.model.Page;
 import com.charles.community.model.PostDto;
 import com.charles.community.model.User;
+import com.charles.community.service.CommunityConstant;
 import com.charles.community.service.DiscussPostService;
+import com.charles.community.service.LikeService;
 import com.charles.community.service.UserService;
-import com.charles.community.util.CommunityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +21,11 @@ import java.util.List;
  * @date 2020/3/16 11:54
  */
 @Controller
-public class HomeController {
+public class HomeController implements CommunityConstant {
     @Autowired
     private DiscussPostService discussPostService;
-
+    @Autowired
+    private LikeService likeService;
     @Autowired
     private UserService userService;
 
@@ -48,22 +48,17 @@ public class HomeController {
                 User user = userService.findUserById(post.getUserId());
                 postDto.setUser(user);
                 postDto.setDiscussPost(post);
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST, post.getId());
+                postDto.setLikeCount(likeCount);
                 postDtos.add(postDto);
             }
         }
         model.addAttribute("discussPosts", postDtos);
-        model.addAttribute("page", page);
         return "index";
     }
 
-    @GetMapping("/demo")
-    public String demo() {
-        return "ajaxdemo";
-    }
-    @PostMapping("/ajax")
-    @ResponseBody
-    public String testAjax(String name, int age) {
-        System.out.println(name + ":" + age);
-        return CommunityUtil.getJsonString(0, "操作成功");
+    @GetMapping("/error")
+    public String getErrorPage() {
+        return "error/500";
     }
 }

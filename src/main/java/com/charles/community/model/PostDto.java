@@ -10,4 +10,5 @@ import lombok.Data;
 public class PostDto {
     private User user;
     private DiscussPost discussPost;
+    private long likeCount;
 }

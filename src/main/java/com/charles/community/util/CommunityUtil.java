@@ -29,17 +29,17 @@ public class CommunityUtil {
         return DigestUtils.md5DigestAsHex(key.getBytes());
     }
 
-    public static String getJsonString(int coed, String msg) {
-        return getJsonString(coed, msg, null);
+    public static String getJsonString(int code, String msg) {
+        return getJsonString(code, msg, null);
     }
 
-    public static String getJsonString(int coed) {
-        return getJsonString(coed, null, null);
+    public static String getJsonString(int code) {
+        return getJsonString(code, null, null);
     }
 
-    public static String getJsonString(int coed, String msg, Map<String, Object> map) {
+    public static String getJsonString(int code, String msg, Map<String, Object> map) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("code", coed);
+        jsonObject.put("code", code);
         jsonObject.put("msg", msg);
         if (map != null) {
             for (String key : map.keySet()) {

@@ -38,6 +38,11 @@ spring:
         smtp:
           ssl:
             enable: true
+  #redis
+  redis:
+    database: 11
+    host: 192.168.16.132
+    port: 6379
 
 # MybatisProperties
 mybatis:
