@@ -2,8 +2,15 @@ package com.charles.community.service;
 
 import com.charles.community.util.RedisKeyUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SessionCallback;
 import org.springframework.stereotype.Service;
+
+import java.time.DayOfWeek;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author charles
@@ -15,20 +22,32 @@ public class LikeService {
     private RedisTemplate redisTemplate;
 
     /**
-     * 点赞
+     * 给帖子or评论 点赞or取消点赞,同时更新该用户被赞次数
      *
-     * @param userId     用户id
-     * @param entityType 实体类型
-     * @param entityId   实体id
+     * @param userId       点赞的用户id
+     * @param entityType   被点赞的实体类型
+     * @param entityId     被点赞的实体id
+     * @param entityUserId 被点赞的用户id
      */
-    public void like(int userId, int entityType, int entityId) {
+    public void like(int userId, int entityType, int entityId, int entityUserId) {
         String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
-        Boolean isMember = redisTemplate.opsForSet().isMember(entityLikeKey, userId);
-        if (isMember) {
-            redisTemplate.opsForSet().remove(entityLikeKey, userId);
-        } else {
-            redisTemplate.opsForSet().add(entityLikeKey, userId);
-        }
+        String userLikeKey = RedisKeyUtil.getUserLikeKey(entityUserId);
+        redisTemplate.execute(new SessionCallback() {
+            @Override
+            public Object execute(RedisOperations operations) throws DataAccessException {
+                Boolean isMember = operations.opsForSet().isMember(entityLikeKey, userId);
+                //开启事务
+                operations.multi();
+                if (isMember) {
+                    operations.opsForSet().remove(entityLikeKey, userId);
+                    operations.opsForValue().decrement(userLikeKey);
+                } else {
+                    operations.opsForSet().add(entityLikeKey, userId);
+                    operations.opsForValue().increment(userLikeKey);
+                }
+                return operations.exec();
+            }
+        });
     }
 
     /**
@@ -54,5 +73,17 @@ public class LikeService {
     public int findEntityLikeStatus(int userId, int entityType, int entityId) {
         String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
         return redisTemplate.opsForSet().isMember(entityLikeKey, userId) ? 1 : 0;
+    }
+
+    /**
+     * 获取用户被赞次数
+     *
+     * @param userId 用户id
+     * @return 被赞次数
+     */
+    public int findUserLikedCount(int userId) {
+        String userLikeKey = RedisKeyUtil.getUserLikeKey(userId);
+        Integer count = (Integer) redisTemplate.opsForValue().get(userLikeKey);
+        return count == null ? 0 : count;
     }
 }

@@ -1,6 +1,7 @@
 server:
   servlet:
     context-path: /community
+  port: 8080
 
 spring:
   thymeleaf:
@@ -41,7 +42,7 @@ spring:
   #redis
   redis:
     database: 11
-    host: 192.168.16.132
+    host: 192.168.16.133
     port: 6379
 
 # MybatisProperties
@@ -55,6 +56,6 @@ mybatis:
 # community
 community:
   path:
-    domain: http://localhost:8080
+    domain: http://localhost:${server.port}
     # 上传文件的保存路径
     upload: D:/charles/Desktop/stu/community/upload

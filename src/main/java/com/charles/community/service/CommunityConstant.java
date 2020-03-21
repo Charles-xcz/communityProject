@@ -26,6 +26,10 @@ public interface CommunityConstant {
      */
     int REMEMBER_EXPIRED_SECONDS = 15 * 24 * 3600;
     /**
+     * 实体类型:用户
+     */
+    int ENTITY_TYPE_USER = 0;
+    /**
      * 实体类型:帖子
      */
     int ENTITY_TYPE_POST = 1;
