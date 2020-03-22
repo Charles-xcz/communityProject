@@ -2,7 +2,7 @@ package com.charles.community.controller;
 
 import com.charles.community.annotation.LoginRequired;
 import com.charles.community.model.User;
-import com.charles.community.service.CommunityConstant;
+import com.charles.community.util.CommunityConstant;
 import com.charles.community.service.FollowService;
 import com.charles.community.service.LikeService;
 import com.charles.community.service.UserService;

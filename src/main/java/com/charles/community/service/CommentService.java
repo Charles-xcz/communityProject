@@ -2,7 +2,7 @@ package com.charles.community.service;
 
 import com.charles.community.dao.CommentMapper;
 import com.charles.community.model.Comment;
-import com.charles.community.model.DiscussPost;
+import com.charles.community.util.CommunityConstant;
 import com.charles.community.util.SensitiveFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -48,5 +48,9 @@ public class CommentService implements CommunityConstant {
             discussPostService.updateCommentCount(comment.getEntityId(), count);
         }
         return rows;
+    }
+
+    public Comment findCommentById(int id) {
+        return commentMapper.selectCommentById(id);
     }
 }

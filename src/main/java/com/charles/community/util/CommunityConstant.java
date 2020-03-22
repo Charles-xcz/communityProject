@@ -1,4 +1,4 @@
-package com.charles.community.service;
+package com.charles.community.util;
 
 /**
  * @author charles
@@ -37,4 +37,24 @@ public interface CommunityConstant {
      * 实体类型:评论
      */
     int ENTITY_TYPE_COMMENT = 2;
+    /**
+     * 消息主题:评论
+     */
+    String TOPIC_COMMENT = "comment";
+    /**
+     * 消息主题:点赞
+     */
+    String TOPIC_LIKE = "like";
+    /**
+     * 消息主题:关注
+     */
+    String TOPIC_FOLLOW = "follow";
+    /**
+     * 消息主题:发帖
+     */
+    String TOPIC_PUBLISH = "publish";
+    /**
+     * 系统id
+     */
+    int SYSTEM_USER_ID = 1;
 }

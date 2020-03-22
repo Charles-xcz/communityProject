@@ -4,7 +4,7 @@ import com.charles.community.model.DiscussPost;
 import com.charles.community.model.Page;
 import com.charles.community.model.PostDto;
 import com.charles.community.model.User;
-import com.charles.community.service.CommunityConstant;
+import com.charles.community.util.CommunityConstant;
 import com.charles.community.service.DiscussPostService;
 import com.charles.community.service.LikeService;
 import com.charles.community.service.UserService;

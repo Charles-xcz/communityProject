@@ -21,6 +21,9 @@ public class Message {
      */
     private String conversationId;
     private String content;
+    /**
+     * 0表示未读,1表示已读,2表示被删除
+     */
     private int status;
     private Date createTime;
 }

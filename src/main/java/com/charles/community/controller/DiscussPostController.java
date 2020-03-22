@@ -1,10 +1,9 @@
 package com.charles.community.controller;
 
-import com.charles.community.model.Comment;
-import com.charles.community.model.DiscussPost;
-import com.charles.community.model.Page;
-import com.charles.community.model.User;
+import com.charles.community.event.EventProducer;
+import com.charles.community.model.*;
 import com.charles.community.service.*;
+import com.charles.community.util.CommunityConstant;
 import com.charles.community.util.CommunityUtil;
 import com.charles.community.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +30,8 @@ public class DiscussPostController implements CommunityConstant {
     private CommentService commentService;
     @Autowired
     private LikeService likeService;
+    @Autowired
+    private EventProducer eventProducer;
 
     @PostMapping("/add")
     @ResponseBody
@@ -45,6 +46,13 @@ public class DiscussPostController implements CommunityConstant {
                 .setContent(content)
                 .setCreateTime(new Date());
         discussPostService.addDiscussPost(discussPost);
+        //触发发帖事件
+        Event event = new Event().setTopic(TOPIC_PUBLISH)
+                .setUserId(user.getId())
+                .setEntityType(ENTITY_TYPE_POST)
+                .setEntityId(discussPost.getId());
+        eventProducer.fireEvent(event);
+
         return CommunityUtil.getJsonString(0, "发布成功!");
     }
 

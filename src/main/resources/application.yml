@@ -42,8 +42,21 @@ spring:
   #redis
   redis:
     database: 11
-    host: 192.168.16.133
+    host: localhost
     port: 6379
+  #KafkaProperties
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: community-consumer-group
+      enable-auto-commit: true
+      auto-commit-interval: 3000
+  #ElasticsearchProperties
+  data:
+    elasticsearch:
+      cluster-name: charles
+      #9300是tcp端口,9200是http端口
+      cluster-nodes: localhost:9300
 
 # MybatisProperties
 mybatis:

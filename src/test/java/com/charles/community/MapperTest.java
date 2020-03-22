@@ -29,6 +29,7 @@ public class MapperTest {
         System.out.println(user);
         System.out.println(userMapper.selectByName("liubei"));
     }
+
     @Test
     public void testDiscussPostMapper() {
         System.out.println(discussPostMapper.selectDiscussPostRows(149));
@@ -36,7 +37,10 @@ public class MapperTest {
     }
 
     @Test
-    public void testLoginTicket() {
-
+    public void testInsert() {
+        DiscussPost discussPost = new DiscussPost();
+        System.out.println(discussPost);
+        discussPostMapper.insertDiscussPost(discussPost);
+        System.out.println(discussPost);
     }
 }

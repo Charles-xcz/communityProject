@@ -81,7 +81,7 @@
         </foreach>
     </update>
 
-    <select id="selectLatestNotice" resultType="Message">
+    <select id="selectLatestNotice" resultType="com.charles.community.model.Message">
         select
         <include refid="selectFields"/>
         from message
@@ -113,7 +113,7 @@
         </if>
     </select>
 
-    <select id="selectNotices" resultType="Message">
+    <select id="selectNotices" resultType="com.charles.community.model.Message">
         select
         <include refid="selectFields"/>
         from message

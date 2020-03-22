@@ -1,8 +1,10 @@
 package com.charles.community.controller;
 
+import com.charles.community.event.EventProducer;
+import com.charles.community.model.Event;
 import com.charles.community.model.Page;
 import com.charles.community.model.User;
-import com.charles.community.service.CommunityConstant;
+import com.charles.community.util.CommunityConstant;
 import com.charles.community.service.FollowService;
 import com.charles.community.service.UserService;
 import com.charles.community.util.CommunityUtil;
@@ -15,7 +17,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Map;
 
@@ -31,11 +32,21 @@ public class FollowController implements CommunityConstant {
     private HostHolder hostHolder;
     @Autowired
     private UserService userService;
+    @Autowired
+    private EventProducer eventProducer;
 
     @PostMapping("/follow")
     @ResponseBody
     public String follow(int entityType, int entityId) {
         followService.follow(hostHolder.getUser().getId(), entityType, entityId);
+        //触发关注事件
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
         return CommunityUtil.getJsonString(0, "已关注!");
     }
 
